@@ -26,8 +26,8 @@ st.subheader("Student Information")
 
 age = st.number_input(
     "Age",
-    min_value=18,
-    max_value=100,
+    min_value=20,
+    max_value=29,
     value=25,
     step=1
 )
