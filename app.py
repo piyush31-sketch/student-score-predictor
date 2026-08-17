@@ -2,44 +2,56 @@ import streamlit as st
 import joblib
 import pandas as pd
 
-# Loading the trained model
+# Load the trained model
 model = joblib.load("model.joblib")
 
 # Page configuration
 st.set_page_config(
     page_title="Student Score Predictor",
-    page_icon="🎓"
+    page_icon="🎓",
+    layout="centered"
 )
 
 # Title
 st.title("🎓 Student Score Predictor")
 
 st.write(
-    "Enter the student's details below to predict their score."
+    "Predict a student's score using their age, AI knowledge, and ML knowledge."
 )
 
-# User inputs
+st.divider()
+
+# Input section
+st.subheader("Student Information")
+
 age = st.number_input(
     "Age",
     min_value=18,
     max_value=100,
-    value=25
+    value=25,
+    step=1
 )
 
-ai = st.selectbox(
-    "Knows AI?",
-    options=[0, 1],
-    format_func=lambda x: "Yes" if x == 1 else "No"
-)
+col1, col2 = st.columns(2)
 
-ml = st.selectbox(
-    "Knows ML?",
-    options=[0, 1],
-    format_func=lambda x: "Yes" if x == 1 else "No"
-)
+with col1:
+    ai = st.selectbox(
+        "AI Knowledge",
+        options=[0, 1],
+        format_func=lambda x: "Yes" if x == 1 else "No"
+    )
 
-# Prediction button
-if st.button("Predict Score"):
+with col2:
+    ml = st.selectbox(
+        "ML Knowledge",
+        options=[0, 1],
+        format_func=lambda x: "Yes" if x == 1 else "No"
+    )
+
+st.divider()
+
+# Prediction
+if st.button("Predict Score", use_container_width=True):
 
     new_student = pd.DataFrame({
         "Age": [age],
@@ -47,6 +59,35 @@ if st.button("Predict Score"):
         "ML": [ml]
     })
 
-    prediction = model.predict(new_student)
+    prediction = model.predict(new_student)[0]
 
-    st.success(f"Predicted Score: {prediction[0]:.2f}")
+    st.success("Prediction generated successfully!")
+
+    st.metric(
+        label="Predicted Score",
+        value=f"{prediction:.2f}"
+    )
+
+    if prediction >= 90:
+        st.info("Excellent predicted performance! 🎯")
+    elif prediction >= 75:
+        st.info("Good predicted performance! 👍")
+    else:
+        st.info("There may be room for improvement. 📚")
+
+st.divider()
+
+# Model information
+st.subheader("About the Model")
+
+st.write(
+    "This application uses a Linear Regression model trained on "
+    "student age, AI knowledge, and ML knowledge."
+)
+
+st.write("Model evaluation:")
+
+st.metric(
+    label="Mean Absolute Error (MAE)",
+    value="0.68"
+)
