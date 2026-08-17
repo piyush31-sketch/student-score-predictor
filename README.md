@@ -59,6 +59,24 @@ Linear Regression achieved the lowest MAE on the current test split.
 
 > **Note:** The dataset contains only 10 examples and is intended for learning purposes. These results should not be interpreted as evidence of real-world model performance.
 
+### Cross-Validation
+
+To obtain a more stable estimate of model performance, 5-fold cross-validation was performed on the Linear Regression model.
+
+The average cross-validation MAE was:
+
+**0.98**
+
+Individual fold MAE scores:
+
+- Fold 1: 0.68
+- Fold 2: 0.50
+- Fold 3: 0.77
+- Fold 4: 0.97
+- Fold 5: 1.99
+
+The variation between folds shows that model performance can change depending on which samples are used for validation.
+
 ## Features & Dataset
 
 The model uses the following features:
