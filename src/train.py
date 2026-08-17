@@ -1,4 +1,6 @@
 import pandas as pd
+import joblib
+
 
 # Loading the dataset
 data = pd.read_csv("data/student_scores.csv")
@@ -44,6 +46,11 @@ model = LinearRegression()
 
 # Training the model
 model.fit(X_train, y_train)
+
+# Save the trained model
+joblib.dump(model, "model.joblib")
+
+print("\nModel saved successfully!")
 
 print("\nModel trained successfully!")
 
